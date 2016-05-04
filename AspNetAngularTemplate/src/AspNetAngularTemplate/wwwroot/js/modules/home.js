@@ -1,8 +1,14 @@
-﻿(function (window, angular) {
+﻿/**
+ * @fileOverview Home view.
+ * @module home
+ */
+
+(function (window, angular) {
     "use strict";
 
     var module = angular.module("home", [
-      "ui.router"
+      "ui.router",
+      "facility"
     ]);
 
     // Routes

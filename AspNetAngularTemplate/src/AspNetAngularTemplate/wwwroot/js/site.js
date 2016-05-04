@@ -1,5 +1,10 @@
-﻿(function (angular) {
-    'use strict';
+﻿/**
+ * @fileOverview Angular application entry point.
+ * @module site
+ */
+
+(function (angular) {
+    "use strict";
 
     var app = angular.module("app", [
       "ui.router", // for ui routing
@@ -22,27 +27,24 @@
           $urlRouterProvider.otherwise("/");
 
           // defining themes
-          var lightGreenTheme = $mdThemingProvider.extendPalette("light-green", {
+          var indigo = $mdThemingProvider.extendPalette("indigo", {
               "contrastLightColors": ["500"]
           });
-          $mdThemingProvider.definePalette("light-green-auction", lightGreenTheme);
+          $mdThemingProvider.definePalette("indigo-custom", indigo);
 
-          var deepPurpleTheme = $mdThemingProvider.extendPalette('deep-purple', {
+          var green = $mdThemingProvider.extendPalette("green", {
               "contrastLightColors": ["500"]
           });
-          $mdThemingProvider.definePalette("deep-purple-auction", deepPurpleTheme);
+          $mdThemingProvider.definePalette("green-custom", green);
 
           // configuring themes
           $mdThemingProvider.theme("default")
-            .backgroundPalette("grey", {
-                "default": "100"
-            })
-            .primaryPalette("deep-purple-auction", {
+            .primaryPalette("indigo-custom", {
                 "default": "500",
                 "hue-1": "700",
                 "hue-2": "100"
             })
-            .accentPalette("light-green-auction", {
+            .accentPalette("green-custom", {
                 "default": "500"
             });
       }

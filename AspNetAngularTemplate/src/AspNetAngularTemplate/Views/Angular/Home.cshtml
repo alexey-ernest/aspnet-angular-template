@@ -1,8 +1,83 @@
 ﻿<script type="text/ng-template" id="home.html">
-    <section>
-        <h1 ng-bind="text"></h1>
-        <p>
-            <md-button class="md-primary md-raised">Button</md-button>
-        </p>
-    </section>
+    <div layout="column">
+        <md-toolbar class="md-primary md-hue-1 app-status"></md-toolbar>
+        <md-toolbar class="md-primary app-stats" layout="column">
+            <md-toolbar-tools flex="100" layout="row" layout-align="center center">
+                <div flex="10" layout="row" layout-align="center center">
+                    <md-button class="md-icon-button" aria-label="Menu">
+                        <md-icon class="fa fa-bars"></md-icon>
+                    </md-button>
+                </div>
+                <div flex></div>
+                <div>
+                    <md-menu md-position-mode="target-right target">
+                        <md-button class="md-icon-button" aria-label="User Menu" ng-click="$mdOpenMenu($event)">
+                            <span md-menu-origin>
+                                <md-icon class="fa fa-ellipsis-v"></md-icon>
+                            </span>
+                        </md-button>
+                        <md-menu-content width="2">
+                            <md-menu-item>
+                                <md-button>
+                                    <span md-menu-align-target>Settings</span>
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button>
+                                    <span md-menu-align-target>Logout</span>
+                                </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                </div>
+            </md-toolbar-tools>
+        </md-toolbar>
+        <md-toolbar class="md-primary app-primary" layout="column">
+            <md-toolbar-tools flex="100" layout="row" layout-align="center center">
+                <div flex></div>
+                <div flex="80">
+                    <p class="md-display-2">Main preview</p>
+                    <p class="md-subhead">Secondary title</p>
+                    <md-button class="md-fab md-raised md-accent app-button" aria-label="Button">
+                        <md-icon class="fa fa-sign-in"></md-icon>
+                    </md-button>
+                </div>
+                <div flex></div>
+            </md-toolbar-tools>
+        </md-toolbar>
+        <md-content class="app-secondary">
+            <ul class="list-items">
+                <li layout="row" layout-align="start center">
+                    <div flex layout="row" layout-align="start center">
+                        <md-icon class="fa fa-building list-item-icon"></md-icon>
+                    </div>
+                    <div flex="80">
+                        <h2 class="md-title">Facilities</h2>
+                        <p class="md-subhead">Manage facilities and access points</p>
+                    </div>
+                    <div flex></div>
+                </li>
+                <li layout="row" layout-align="start center">
+                    <div flex layout="row" layout-align="start center">
+                        <md-icon class="fa fa-book list-item-icon"></md-icon>
+                    </div>
+                    <div flex="80">
+                        <h2 class="md-title">Reports</h2>
+                        <p class="md-subhead">View daily reports</p>
+                    </div>
+                    <div flex></div>
+                </li>
+                <li layout="row" layout-align="start center">
+                    <div flex layout="row" layout-align="start center">
+                        <md-icon class="fa fa-users list-item-icon"></md-icon>
+                    </div>
+                    <div flex="80">
+                        <h2 class="md-title">Users</h2>
+                        <p class="md-subhead">Manage users and groups</p>
+                    </div>
+                    <div flex></div>
+                </li>
+            </ul>
+        </md-content>
+    </div>
 </script>

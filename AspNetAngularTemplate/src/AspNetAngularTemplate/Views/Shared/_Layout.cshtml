@@ -17,8 +17,15 @@
         </environment>
     </head>
     <body>
+
+        <div layout="row">
+            <div flex></div>
+            <div flex-sm="100" flex-md="80" flex-gt-md="50" class="page-content md-whiteframe-8dp">
+                @RenderBody()
+            </div>
+            <div flex></div>
+        </div>
         
-        @RenderBody()
 
         <environment names="Development">
             <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -29,6 +36,8 @@
             <script src="~/lib/angular-messages/angular-messages.js"></script>
             <script src="~/lib/angular-material/angular-material.js"></script>
             <script src="~/js/modules/home.js" asp-append-version="true"></script>
+            <script src="~/js/modules/api.js" asp-append-version="true"></script>
+            <script src="~/js/modules/facility.js" asp-append-version="true"></script>
             <script src="~/js/site.js" asp-append-version="true"></script>
         </environment>
         <environment names="Staging,Production">

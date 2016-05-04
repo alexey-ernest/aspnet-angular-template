@@ -1,34 +1,91 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    background-color: #4A4F52;
 }
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+.app-content {
+    background-color: #f9f9f9;
 }
 
-/* Set widths on the form inputs since otherwise they're 100% wide */
-input,
-select,
-textarea {
-    max-width: 280px;
+.app-status {
+    height: 25px;
+    min-height:25px;
 }
 
-/* Carousel */
-.carousel-caption {
-    z-index: 10 !important;
+.app-stats {
+    min-height: 60px;
+    padding: 0 15px;
 }
 
-    .carousel-caption p {
-        font-size: 20px;
-        line-height: 1.4;
-    }
+.app-primary {
+    min-height: 180px;
+    padding: 0 15px 20px 15px;
+    position: relative;
+}
 
-@media (min-width: 768px) {
-    .carousel-caption {
-        z-index: 10 !important;
-    }
+.app-primary .md-display-2,
+.app-primary .md-subhead {
+    margin: 0;
+}
+
+.app-button {
+    position: absolute;
+    top: 180px;
+    right: 10%;
+    margin-top: -28px !important;
+}
+
+.app-button[disabled] {
+    background-color: #dadada !important
+}
+
+.app-secondary {
+    min-height: 100px;
+    
+}
+
+.app-secondary-annotation {
+    padding: 40px 0;
+}
+
+
+ul.list-items {
+    margin: 0;
+    padding: 0;
+}
+
+ul.list-items li {
+    padding: 25px 15px;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.list-item-icon {
+    color: #717171;
+    font-size: 30px;
+}
+
+ul.list-items li .md-title {
+    color: #212121;
+    font-size: 16px;
+    margin: 0;
+}
+
+ul.list-items li .md-subhead {
+    color: #727272;
+    font-size:15px;
+    margin:0;
+}
+
+
+md-dialog.app-dialog {
+    width: 400px;
+}
+
+/* Font Awesome */
+md-icon.fa {
+    font-size: 24px;
+}
+
+.fa-spin.faster {
+    -webkit-animation: fa-spin 1s infinite linear;
+    animation: fa-spin 1s infinite linear; 
 }
