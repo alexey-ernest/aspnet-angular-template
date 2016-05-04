@@ -54,8 +54,9 @@ namespace AspNetAngularTemplate.Controllers.Api
             {
                 return HttpNotFound();
             }
+            item.Name = name;
 
-            await _repository.UpdateAsync(new Facility {Id = id, Name = name});
+            await _repository.UpdateAsync(item);
             return Ok();
         }
 
