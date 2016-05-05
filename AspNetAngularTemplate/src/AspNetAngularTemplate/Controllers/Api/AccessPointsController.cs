@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AspNetAngularTemplate.Models;
 using AspNetAngularTemplate.Models.Repositories;
 using AspNetAngularTemplate.ViewModels;
+using AutoMapper;
 using Microsoft.AspNet.Mvc;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,12 +16,14 @@ namespace AspNetAngularTemplate.Controllers.Api
     {
         private readonly IAccessPointRepository _accessPointRepository;
         private readonly IFacilityRepository _facilityRepository;
+        private readonly IMapper _mapper;
 
         public AccessPointsController(IFacilityRepository facilityRepository,
-            IAccessPointRepository accessPointRepository)
+            IAccessPointRepository accessPointRepository, IMapper mapper)
         {
             _facilityRepository = facilityRepository;
             _accessPointRepository = accessPointRepository;
+            _mapper = mapper;
         }
 
         // GET: api/api/facilities/{fid}/accesspoints
@@ -33,11 +37,7 @@ namespace AspNetAngularTemplate.Controllers.Api
             }
 
             var accessPoints = await _accessPointRepository.GetAllAsync(fid);
-            return new ObjectResult(accessPoints.Select(a => new AccessPointDto
-            {
-                Id = a.Id,
-                Name = a.Name
-            }));
+            return new ObjectResult(_mapper.Map<List<AccessPointDto>>(accessPoints));
         }
 
         // GET api/facilities/{fid}/accesspoints/{id}
@@ -56,11 +56,7 @@ namespace AspNetAngularTemplate.Controllers.Api
                 return HttpNotFound();
             }
 
-            return new ObjectResult(new AccessPointDto
-            {
-                Id = item.Id,
-                Name = item.Name
-            });
+            return new ObjectResult(_mapper.Map<AccessPointDto>(item));
         }
 
         // POST api/facilities/{fid}/accesspoints

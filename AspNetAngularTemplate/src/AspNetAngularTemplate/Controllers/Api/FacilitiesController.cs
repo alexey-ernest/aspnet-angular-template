@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AspNetAngularTemplate.Models;
 using AspNetAngularTemplate.Models.Repositories;
 using AspNetAngularTemplate.ViewModels;
+using AutoMapper;
 using Microsoft.AspNet.Mvc;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,10 +15,12 @@ namespace AspNetAngularTemplate.Controllers.Api
     public class FacilitiesController : Controller
     {
         private readonly IFacilityRepository _repository;
+        private readonly IMapper _mapper;
 
-        public FacilitiesController(IFacilityRepository repository)
+        public FacilitiesController(IFacilityRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         // GET: api/facilities
@@ -24,11 +28,7 @@ namespace AspNetAngularTemplate.Controllers.Api
         public async Task<IActionResult> Get()
         {
             var items = await _repository.GetAllAsync();
-            return new ObjectResult(items.Select(i => new FacilityDto
-            {
-                Id = i.Id,
-                Name = i.Name
-            }));
+            return new ObjectResult(_mapper.Map<List<FacilityDto>>(items));
         }
 
         // GET api/facilities/5
@@ -41,11 +41,7 @@ namespace AspNetAngularTemplate.Controllers.Api
                 return HttpNotFound();
             }
 
-            return new ObjectResult(new FacilityDto
-            {
-                Id = item.Id,
-                Name = item.Name
-            });
+            return new ObjectResult(_mapper.Map<FacilityDto>(item));
         }
 
         // POST api/facilities

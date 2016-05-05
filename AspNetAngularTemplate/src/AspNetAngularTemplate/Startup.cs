@@ -1,6 +1,8 @@
-﻿using AspNetAngularTemplate.Middleware;
+﻿using AspNetAngularTemplate.Mapping;
+using AspNetAngularTemplate.Middleware;
 using AspNetAngularTemplate.Models;
 using AspNetAngularTemplate.Models.Repositories;
+using AutoMapper;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -62,6 +64,13 @@ namespace AspNetAngularTemplate
             // Add application services.
             services.AddTransient<IFacilityRepository, FacilityRepository>();
             services.AddTransient<IAccessPointRepository, AccessPointRepository>();
+
+            // AutoMapper
+            var mapperConfiguration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<AutoMapperProfileConfiguration>();
+            });
+            services.AddInstance(mapperConfiguration.CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
