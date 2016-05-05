@@ -9,27 +9,7 @@
                     </md-button>
                 </div>
                 <div flex></div>
-                <div>
-                    <md-menu md-position-mode="target-right target">
-                        <md-button class="md-icon-button" aria-label="User Menu" ng-click="$mdOpenMenu($event)">
-                            <span md-menu-origin>
-                                <md-icon class="fa fa-ellipsis-v"></md-icon>
-                            </span>
-                        </md-button>
-                        <md-menu-content width="2">
-                            <md-menu-item>
-                                <md-button>
-                                    <span md-menu-align-target>Settings</span>
-                                </md-button>
-                            </md-menu-item>
-                            <md-menu-item>
-                                <md-button>
-                                    <span md-menu-align-target>Logout</span>
-                                </md-button>
-                            </md-menu-item>
-                        </md-menu-content>
-                    </md-menu>
-                </div>
+                <app-user-menu></app-user-menu>
             </md-toolbar-tools>
         </md-toolbar>
         <md-toolbar class="md-primary app-primary" layout="column">
@@ -114,27 +94,7 @@
                         <span>Edit {{facility.name}}</span>
                     </md-button>
                 </div>
-                <div>
-                    <md-menu md-position-mode="target-right target">
-                        <md-button class="md-icon-button" aria-label="User Menu" ng-click="$mdOpenMenu($event)">
-                            <span md-menu-origin>
-                                <md-icon class="fa fa-ellipsis-v"></md-icon>
-                            </span>
-                        </md-button>
-                        <md-menu-content width="2">
-                            <md-menu-item>
-                                <md-button>
-                                    <span md-menu-align-target>Settings</span>
-                                </md-button>
-                            </md-menu-item>
-                            <md-menu-item>
-                                <md-button>
-                                    <span md-menu-align-target>Logout</span>
-                                </md-button>
-                            </md-menu-item>
-                        </md-menu-content>
-                    </md-menu>
-                </div>
+                <app-user-menu></app-user-menu>
             </md-toolbar-tools>
         </md-toolbar>
         <md-toolbar class="md-primary app-primary" layout="column">
@@ -217,27 +177,7 @@
                             <span>Access Points</span>
                         </md-button>
                     </div>
-                    <div>
-                        <md-menu md-position-mode="target-right target">
-                            <md-button class="md-icon-button" aria-label="User Menu" ng-click="$mdOpenMenu($event)">
-                                <span md-menu-origin>
-                                    <md-icon class="fa fa-ellipsis-v"></md-icon>
-                                </span>
-                            </md-button>
-                            <md-menu-content width="2">
-                                <md-menu-item>
-                                    <md-button>
-                                        <span md-menu-align-target>Settings</span>
-                                    </md-button>
-                                </md-menu-item>
-                                <md-menu-item>
-                                    <md-button>
-                                        <span md-menu-align-target>Logout</span>
-                                    </md-button>
-                                </md-menu-item>
-                            </md-menu-content>
-                        </md-menu>
-                    </div>
+                    <app-user-menu></app-user-menu>
                 </md-toolbar-tools>
             </md-toolbar>
             <md-toolbar class="md-primary app-primary" layout="column">
@@ -247,7 +187,8 @@
                         <p class="md-display-2">{{facility.name}}</p>
                         <p class="md-subhead">Facility details</p>
                         <md-button type="submit" class="md-fab md-raised md-accent app-button" aria-label="Save" ng-disabled="updateFacilityform.$invalid">
-                            <md-icon class="fa fa-check"></md-icon>
+                            <md-icon class="fa fa-check" ng-show="!loading"></md-icon>
+                            <md-icon class="fa fa-circle-o-notch fa-spin faster ng-animate-disabled" ng-show="loading"></md-icon>
                         </md-button>
                     </div>
                     <div flex></div>
@@ -291,27 +232,7 @@
                             <span>Access Points</span>
                         </md-button>
                     </div>
-                    <div>
-                        <md-menu md-position-mode="target-right target">
-                            <md-button class="md-icon-button" aria-label="User Menu" ng-click="$mdOpenMenu($event)">
-                                <span md-menu-origin>
-                                    <md-icon class="fa fa-ellipsis-v"></md-icon>
-                                </span>
-                            </md-button>
-                            <md-menu-content width="2">
-                                <md-menu-item>
-                                    <md-button>
-                                        <span md-menu-align-target>Settings</span>
-                                    </md-button>
-                                </md-menu-item>
-                                <md-menu-item>
-                                    <md-button>
-                                        <span md-menu-align-target>Logout</span>
-                                    </md-button>
-                                </md-menu-item>
-                            </md-menu-content>
-                        </md-menu>
-                    </div>
+                    <app-user-menu></app-user-menu>
                 </md-toolbar-tools>
             </md-toolbar>
             <md-toolbar class="md-primary app-primary" layout="column">
@@ -321,7 +242,8 @@
                         <p class="md-display-2">{{accessPoint.name}}</p>
                         <p class="md-subhead">Access Point details</p>
                         <md-button type="submit" class="md-fab md-raised md-accent app-button" aria-label="Save" ng-disabled="updateAccessPointform.$invalid">
-                            <md-icon class="fa fa-check"></md-icon>
+                            <md-icon class="fa fa-check" ng-show="!loading"></md-icon>
+                            <md-icon class="fa fa-circle-o-notch fa-spin faster ng-animate-disabled" ng-show="loading"></md-icon>
                         </md-button>
                     </div>
                     <div flex></div>

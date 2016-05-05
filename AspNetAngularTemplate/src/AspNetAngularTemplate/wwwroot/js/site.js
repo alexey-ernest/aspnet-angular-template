@@ -9,13 +9,14 @@
     var app = angular.module("app", [
       "ui.router", // for ui routing
       "ngMaterial", // activate material design
-      "home"
+      "home",
+      "userMenu"
     ]);
 
     // Config
     app.config([
-      "$urlRouterProvider", "$locationProvider", "$stateProvider", "$mdThemingProvider",
-      function ($urlRouterProvider, $locationProvider, $stateProvider, $mdThemingProvider) {
+      "$urlRouterProvider", "$locationProvider", "$stateProvider", "$mdThemingProvider", "$animateProvider",
+      function ($urlRouterProvider, $locationProvider, $stateProvider, $mdThemingProvider, $animateProvider) {
 
           // routes
           $stateProvider
@@ -47,6 +48,10 @@
             .accentPalette("green-custom", {
                 "default": "500"
             });
+
+
+          // configure animation
+          $animateProvider.classNameFilter(/^(?:(?!ng-animate-disabled).)*$/);
       }
     ]);
 

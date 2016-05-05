@@ -6,27 +6,7 @@
                 <div flex="10" layout="row" layout-align="center center">
                 </div>
                 <div flex></div>
-                <div>
-                    <md-menu md-position-mode="target-right target">
-                        <md-button class="md-icon-button" aria-label="User Menu" ng-click="$mdOpenMenu($event)">
-                            <span md-menu-origin>
-                                <md-icon class="fa fa-ellipsis-v"></md-icon>
-                            </span>
-                        </md-button>
-                        <md-menu-content width="2">
-                            <md-menu-item>
-                                <md-button>
-                                    <span md-menu-align-target>Settings</span>
-                                </md-button>
-                            </md-menu-item>
-                            <md-menu-item>
-                                <md-button>
-                                    <span md-menu-align-target>Logout</span>
-                                </md-button>
-                            </md-menu-item>
-                        </md-menu-content>
-                    </md-menu>
-                </div>
+                <app-user-menu></app-user-menu>
             </md-toolbar-tools>
         </md-toolbar>
         <md-toolbar class="md-primary app-primary" layout="column">
