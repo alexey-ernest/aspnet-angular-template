@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AspNetAngularTemplate.Exceptions;
 using Microsoft.Data.Entity;
@@ -16,13 +18,14 @@ namespace AspNetAngularTemplate.Models.Repositories
 
         public async Task AddAsync(AccessPoint item)
         {
+            item.Id = Guid.NewGuid().ToString();
             _db.AccessPoints.Add(item);
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<AccessPoint>> GetAllAsync()
+        public async Task<IEnumerable<AccessPoint>> GetAllAsync(string facilityId)
         {
-            return await _db.AccessPoints.ToListAsync();
+            return await _db.AccessPoints.Where(a => a.Facility.Id == facilityId).ToListAsync();
         }
 
         public async Task<AccessPoint> FindAsync(string id)

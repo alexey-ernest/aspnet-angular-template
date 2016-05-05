@@ -21,7 +21,7 @@
              */
             add: function(name) {
                   var data = {
-                      anme: name
+                      name: name
                   };
                   return $http.post(api, data);
             },
@@ -66,6 +66,73 @@
             }
           };
       }
+    ]);
+
+    /**
+     * AccessPoint API service.
+     */
+    module.factory("accessPointApi", ["$http", function ($http) {
+        function buildApiUrl(id) {
+            return "/api/facilities/" + id + "/accesspoints";
+        }
+
+        return {
+            /**
+             * Creates new access point.
+             * @param {String} fid Facility id.
+             * @returns Promise.
+             */
+            add: function (fid, name) {
+                var data = {
+                    name: name
+                };
+                return $http.post(buildApiUrl(fid), data);
+            },
+
+            /**
+             * Retrieves all access points for facility.
+             * @param {String} fid Facility id.
+             * @returns Promise.
+             */
+            getAll: function (fid) {
+                return $http.get(buildApiUrl(fid));
+            },
+
+            /**
+             * Retrieves access point by id.
+             * @param {String} fid Facility id.
+             * @param {String} id Access point id.
+             * @returns Promise.
+             */
+            get: function (fid, id) {
+                return $http.get(buildApiUrl(fid) + "/" + id);
+            },
+
+            /**
+             * Updates access points.
+             * @param {String} fid Facility id.
+             * @param {String} id Access point id.
+             * @param {String} name New Facility name.
+             * @returns Promise.
+             */
+            update: function (fid, id, name) {
+                var data = {
+                    name: name
+                };
+                return $http.put(buildApiUrl(fid) + "/" + id, data);
+            },
+
+            /**
+             * Deletes access point by id.
+             * @param {String} fid Facility id.
+             * @param {String} id Access point id.
+             * @returns Promise.
+             */
+            remove: function (fid, id) {
+                return $http.delete(buildApiUrl(fid) + "/" + id);
+            }
+        };
+    }
     ]);
 
 })(window, window.angular);

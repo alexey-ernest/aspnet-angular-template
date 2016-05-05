@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AspNetAngularTemplate.Exceptions;
 using Microsoft.Data.Entity;
@@ -16,6 +17,7 @@ namespace AspNetAngularTemplate.Models.Repositories
 
         public async Task AddAsync(Facility item)
         {
+            item.Id = Guid.NewGuid().ToString();
             _db.Facilities.Add(item);
             await _db.SaveChangesAsync();
         }

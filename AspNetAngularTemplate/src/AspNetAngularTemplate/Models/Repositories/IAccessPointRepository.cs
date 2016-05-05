@@ -8,7 +8,7 @@ namespace AspNetAngularTemplate.Models.Repositories
     {
         Task AddAsync(AccessPoint item);
 
-        Task<IEnumerable<AccessPoint>> GetAllAsync();
+        Task<IEnumerable<AccessPoint>> GetAllAsync(string facilityId);
 
         Task<AccessPoint> FindAsync(string id);
 

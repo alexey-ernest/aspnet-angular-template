@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using AspNetAngularTemplate.Models;
 using AspNetAngularTemplate.Models.Repositories;
+using AspNetAngularTemplate.ViewModels;
 using Microsoft.AspNet.Mvc;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -30,7 +32,12 @@ namespace AspNetAngularTemplate.Controllers.Api
                 return HttpNotFound();
             }
 
-            return new ObjectResult(facility.AccessPoints);
+            var accessPoints = await _accessPointRepository.GetAllAsync(fid);
+            return new ObjectResult(accessPoints.Select(a => new AccessPointDto
+            {
+                Id = a.Id,
+                Name = a.Name
+            }));
         }
 
         // GET api/facilities/{fid}/accesspoints/{id}
@@ -49,27 +56,41 @@ namespace AspNetAngularTemplate.Controllers.Api
                 return HttpNotFound();
             }
 
-            return new ObjectResult(item);
+            return new ObjectResult(new AccessPointDto
+            {
+                Id = item.Id,
+                Name = item.Name
+            });
         }
 
         // POST api/facilities/{fid}/accesspoints
         [HttpPost]
-        public async Task<IActionResult> Post(string fid, [FromBody] string name)
+        public async Task<IActionResult> Post(string fid, [FromBody] AccessPointDto accessPoint)
         {
+            if (!ModelState.IsValid)
+            {
+                return HttpBadRequest(ModelState);
+            }
+
             var facility = await _facilityRepository.FindAsync(fid);
             if (facility == null)
             {
                 return HttpNotFound();
             }
 
-            await _accessPointRepository.AddAsync(new AccessPoint {Name = name, Facility = facility});
+            await _accessPointRepository.AddAsync(new AccessPoint {Name = accessPoint.Name, Facility = facility});
             return Ok();
         }
 
         // PUT api/facilities/{fid}/accesspoints/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string fid, string id, [FromBody] string name)
+        public async Task<IActionResult> Put(string fid, string id, [FromBody] AccessPointDto accessPoint)
         {
+            if (!ModelState.IsValid)
+            {
+                return HttpBadRequest(ModelState);
+            }
+
             var facility = await _facilityRepository.FindAsync(fid);
             if (facility == null)
             {
@@ -82,7 +103,7 @@ namespace AspNetAngularTemplate.Controllers.Api
                 return HttpNotFound();
             }
 
-            item.Name = name;
+            item.Name = accessPoint.Name;
             await _accessPointRepository.UpdateAsync(item);
             return Ok();
         }

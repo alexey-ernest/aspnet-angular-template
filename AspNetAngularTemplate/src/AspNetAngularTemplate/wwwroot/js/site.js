@@ -52,8 +52,8 @@
 
     // Main application controller
     app.controller("AppCtrl", [
-      "$rootScope",
-      function ($rootScope) {
+      "$rootScope", "$state",
+      function ($rootScope, $state) {
 
           $rootScope.pageTitle = "ASP.NET Angular Material Template";
           $rootScope.$on("$stateChangeSuccess", function (event, toState/*, toParams, from, fromParams*/) {
@@ -61,6 +61,10 @@
                   $rootScope.pageTitle = toState.data.pageTitle;
               }
           });
+
+          $rootScope.gotoHome = function () {
+              $state.go("home");
+          };
       }
     ]);
 

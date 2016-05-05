@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AspNetAngularTemplate.Middleware;
+using AspNetAngularTemplate.Models;
+using AspNetAngularTemplate.Models.Repositories;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -9,9 +8,7 @@ using Microsoft.Data.Entity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using AspNetAngularTemplate.Models;
-using AspNetAngularTemplate.Models.Repositories;
-using AspNetAngularTemplate.Services;
+using Newtonsoft.Json.Serialization;
 
 namespace AspNetAngularTemplate
 {
@@ -23,7 +20,7 @@ namespace AspNetAngularTemplate
 
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true);
 
             if (env.IsDevelopment())
             {
@@ -31,7 +28,7 @@ namespace AspNetAngularTemplate
                 builder.AddUserSecrets();
 
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
-                builder.AddApplicationInsightsSettings(developerMode: true);
+                builder.AddApplicationInsightsSettings(true);
             }
 
             builder.AddEnvironmentVariables();
@@ -55,7 +52,12 @@ namespace AspNetAngularTemplate
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ContractResolver =
+                        new CamelCasePropertyNamesContractResolver();
+                });
 
             // Add application services.
             services.AddTransient<IFacilityRepository, FacilityRepository>();
@@ -87,10 +89,12 @@ namespace AspNetAngularTemplate
                         .CreateScope())
                     {
                         serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
-                             .Database.Migrate();
+                            .Database.Migrate();
                     }
                 }
-                catch { }
+                catch
+                {
+                }
             }
 
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
@@ -103,11 +107,14 @@ namespace AspNetAngularTemplate
 
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
 
+            // enable model validation
+            app.UseModelValidation();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}");
             });
         }
 

@@ -1,0 +1,350 @@
+﻿<script type="text/ng-template" id="facilities.html">
+    <div layout="column">
+        <md-toolbar class="md-primary md-hue-1 app-status"></md-toolbar>
+        <md-toolbar class="md-primary app-stats" layout="column">
+            <md-toolbar-tools flex="100" layout="row" layout-align="center center">
+                <div flex="10" layout="row" layout-align="center center">
+                    <md-button class="md-icon-button" aria-label="Menu" ng-click="gotoHome()">
+                        <md-icon class="fa fa-bars"></md-icon>
+                    </md-button>
+                </div>
+                <div flex></div>
+                <div>
+                    <md-menu md-position-mode="target-right target">
+                        <md-button class="md-icon-button" aria-label="User Menu" ng-click="$mdOpenMenu($event)">
+                            <span md-menu-origin>
+                                <md-icon class="fa fa-ellipsis-v"></md-icon>
+                            </span>
+                        </md-button>
+                        <md-menu-content width="2">
+                            <md-menu-item>
+                                <md-button>
+                                    <span md-menu-align-target>Settings</span>
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button>
+                                    <span md-menu-align-target>Logout</span>
+                                </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                </div>
+            </md-toolbar-tools>
+        </md-toolbar>
+        <md-toolbar class="md-primary app-primary" layout="column">
+            <md-toolbar-tools flex="100" layout="row" layout-align="center center">
+                <div flex></div>
+                <div flex="80">
+                    <p class="md-display-2">Facilities</p>
+                    <md-button class="md-fab md-raised md-accent app-button" aria-label="Button" ng-click="newFacility($event)">
+                        <md-icon class="fa fa-plus"></md-icon>
+                    </md-button>
+                </div>
+                <div flex></div>
+            </md-toolbar-tools>
+        </md-toolbar>
+        <md-content class="app-secondary">
+            <ul class="list-items">
+                <li layout="row" layout-align="start center" ng-repeat="facility in facilities">
+                    <div flex layout="row" layout-align="start center">
+                        <md-icon class="fa fa-map-marker list-item-icon"></md-icon>
+                    </div>
+                    <div flex="80">
+                        <h2 class="md-title"><a ui-sref="facility({id: facility.id})">{{facility.name}}</a></h2>
+                        <p class="md-subhead">Manage facility</p>
+                    </div>
+                    <div flex></div>
+                </li>
+            </ul>
+            <div class="app-secondary-annotation" layout="row" ng-show="loading" align-children="center">
+                <md-button aria-label="Loading"  flex  ng-disabled="true">
+                    <span>Loading</span> 
+                    <i class="fa fa-circle-o-notch fa-spin faster"></i>
+                </md-button>
+            </div>
+            <div class="app-secondary-annotation" ng-if="!loading && !facilities.length" layout="row">
+                <div flex></div>
+                <div flex="80">
+                    <p>There are no facilities.</p>
+                </div>
+                <div flex></div>
+            </div>
+        </md-content>
+    </div>
+</script>
+<script type="text/ng-template" id="new-facility-dialog.html">
+    <md-dialog aria-label="New Facility" ng-cloak>
+        <form name="facilityform" ng-submit="confirm(facility)">
+            <md-dialog-content>
+                <div class="md-dialog-content">
+                    <h2 class="md-title">New Facility</h2>
+                    <md-input-container class="md-block">
+                    </md-input-container>
+                    <md-input-container class="md-block md-title">
+                        <label>Name</label>
+                        <input required type="text" name="facilityName" ng-model="facility.name" minlength="3" maxlength="50" />
+                    </md-input-container>
+                </div>
+            </md-dialog-content>
+            <md-dialog-actions layout="row">
+                <md-button class="md-primary" type="submit" ng-disabled="facilityform.$invalid">
+                    <span>Ok</span>
+                </md-button>
+            </md-dialog-actions>
+        </form>
+    </md-dialog>
+</script>
+<script type="text/ng-template" id="facility.html">
+    <div layout="column">
+        <md-toolbar class="md-primary md-hue-1 app-status"></md-toolbar>
+        <md-toolbar class="md-primary app-stats" layout="column">
+            <md-toolbar-tools flex="100" layout="row" layout-align="center center">
+                <div flex="10" layout="row" layout-align="center center">
+                    <md-button class="md-icon-button" aria-label="Menu" ng-click="gotoHome()">
+                        <md-icon class="fa fa-bars"></md-icon>
+                    </md-button>
+                </div>
+                <div flex>
+                    <md-button aria-label="Edit Facility" ng-click="gotoFacilities()">
+                        <i class="fa fa-angle-left"></i>
+                        <span>Facilities</span>
+                    </md-button>
+                    <md-button aria-label="Edit Facility" ng-click="gotoUpdateFacility()">
+                        <span>Edit {{facility.name}}</span>
+                    </md-button>
+                </div>
+                <div>
+                    <md-menu md-position-mode="target-right target">
+                        <md-button class="md-icon-button" aria-label="User Menu" ng-click="$mdOpenMenu($event)">
+                            <span md-menu-origin>
+                                <md-icon class="fa fa-ellipsis-v"></md-icon>
+                            </span>
+                        </md-button>
+                        <md-menu-content width="2">
+                            <md-menu-item>
+                                <md-button>
+                                    <span md-menu-align-target>Settings</span>
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button>
+                                    <span md-menu-align-target>Logout</span>
+                                </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                </div>
+            </md-toolbar-tools>
+        </md-toolbar>
+        <md-toolbar class="md-primary app-primary" layout="column">
+            <md-toolbar-tools flex="100" layout="row" layout-align="center center">
+                <div flex></div>
+                <div flex="80">
+                    <p class="md-display-2">{{facility.name}} Access Points</p>
+                    <md-button class="md-fab md-raised md-accent app-button" aria-label="Button" ng-click="newAccessPoint($event)">
+                        <md-icon class="fa fa-plus"></md-icon>
+                    </md-button>
+                </div>
+                <div flex></div>
+            </md-toolbar-tools>
+        </md-toolbar>
+        <md-content class="app-secondary">
+            <ul class="list-items">
+                <li layout="row" layout-align="start center" ng-repeat="accessPoint in accessPoints">
+                    <div flex layout="row" layout-align="start center">
+                        <md-icon class="fa fa-lock list-item-icon"></md-icon>
+                    </div>
+                    <div flex="80">
+                        <h2 class="md-title"><a ui-sref="accesspoint-update({fid: facility.id, id: accessPoint.id})">{{accessPoint.name}}</a></h2>
+                        <p class="md-subhead">Manage access point</p>
+                    </div>
+                    <div flex></div>
+                </li>
+            </ul>
+            <div class="app-secondary-annotation" layout="row" ng-show="loading" align-children="center">
+                <md-button aria-label="Loading" flex ng-disabled="true">
+                    <span>Loading</span>
+                    <i class="fa fa-circle-o-notch fa-spin faster"></i>
+                </md-button>
+            </div>
+            <div class="app-secondary-annotation" ng-if="!loading && !accessPoints.length" layout="row">
+                <div flex></div>
+                <div flex="80">
+                    <p>There are no access points for facility {{facility.name}}.</p>
+                </div>
+                <div flex></div>
+            </div>
+        </md-content>
+    </div>
+</script>
+<script type="text/ng-template" id="new-accesspoint-dialog.html">
+    <md-dialog aria-label="New Access Point" ng-cloak>
+        <form name="accessPointform" ng-submit="confirm(accessPoint)">
+            <md-dialog-content>
+                <div class="md-dialog-content">
+                    <h2 class="md-title">New Access Point</h2>
+                    <md-input-container class="md-block">
+                    </md-input-container>
+                    <md-input-container class="md-block md-title">
+                        <label>Name</label>
+                        <input required type="text" name="accessPointName" ng-model="accessPoint.name" minlength="3" maxlength="50" />
+                    </md-input-container>
+                </div>
+            </md-dialog-content>
+            <md-dialog-actions layout="row">
+                <md-button class="md-primary" type="submit" ng-disabled="accessPointform.$invalid">
+                    <span>Ok</span>
+                </md-button>
+            </md-dialog-actions>
+        </form>
+    </md-dialog>
+</script>
+<script type="text/ng-template" id="facility-update.html">
+    <form name="updateFacilityform" ng-submit="update(facility)">
+        <div layout="column">
+            <md-toolbar class="md-primary md-hue-1 app-status"></md-toolbar>
+            <md-toolbar class="md-primary app-stats" layout="column">
+                <md-toolbar-tools flex="100" layout="row" layout-align="center center">
+                    <div flex="10" layout="row" layout-align="center center">
+                        <md-button class="md-icon-button" aria-label="Menu" ng-click="gotoHome()">
+                            <md-icon class="fa fa-bars"></md-icon>
+                        </md-button>
+                    </div>
+                    <div flex>
+                        <md-button aria-label="Edit Facility" ng-click="gotoFacility()">
+                            <i class="fa fa-angle-left"></i>
+                            <span>Access Points</span>
+                        </md-button>
+                    </div>
+                    <div>
+                        <md-menu md-position-mode="target-right target">
+                            <md-button class="md-icon-button" aria-label="User Menu" ng-click="$mdOpenMenu($event)">
+                                <span md-menu-origin>
+                                    <md-icon class="fa fa-ellipsis-v"></md-icon>
+                                </span>
+                            </md-button>
+                            <md-menu-content width="2">
+                                <md-menu-item>
+                                    <md-button>
+                                        <span md-menu-align-target>Settings</span>
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button>
+                                        <span md-menu-align-target>Logout</span>
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+                    </div>
+                </md-toolbar-tools>
+            </md-toolbar>
+            <md-toolbar class="md-primary app-primary" layout="column">
+                <md-toolbar-tools flex="100" layout="row" layout-align="center center">
+                    <div flex></div>
+                    <div flex="80">
+                        <p class="md-display-2">{{facility.name}}</p>
+                        <p class="md-subhead">Facility details</p>
+                        <md-button type="submit" class="md-fab md-raised md-accent app-button" aria-label="Save" ng-disabled="updateFacilityform.$invalid">
+                            <md-icon class="fa fa-check"></md-icon>
+                        </md-button>
+                    </div>
+                    <div flex></div>
+                </md-toolbar-tools>
+            </md-toolbar>
+            <md-content class="app-secondary">
+                <div class="app-secondary-annotation" layout="row" ng-show="loading" align-children="center">
+                    <md-button aria-label="Loading" flex ng-disabled="true">
+                        <span>Loading</span>
+                        <i class="fa fa-circle-o-notch fa-spin faster"></i>
+                    </md-button>
+                </div>
+                <div class="app-secondary-annotation" ng-if="!loading" layout="row">
+                    <div flex></div>
+                    <div flex="80">
+                        <md-input-container class="md-block">
+                            <label>Name</label>
+                            <input required type="text" name="facilityName" ng-model="facility.name" minlength="3" maxlength="50" />
+                        </md-input-container>
+                    </div>
+                    <div flex></div>
+                </div>
+            </md-content>
+        </div>
+    </form>
+</script>
+<script type="text/ng-template" id="accesspoint-update.html">
+    <form name="updateAccessPointform" ng-submit="update(accessPoint)">
+        <div layout="column">
+            <md-toolbar class="md-primary md-hue-1 app-status"></md-toolbar>
+            <md-toolbar class="md-primary app-stats" layout="column">
+                <md-toolbar-tools flex="100" layout="row" layout-align="center center">
+                    <div flex="10" layout="row" layout-align="center center">
+                        <md-button class="md-icon-button" aria-label="Menu" ng-click="gotoHome()">
+                            <md-icon class="fa fa-bars"></md-icon>
+                        </md-button>
+                    </div>
+                    <div flex>
+                        <md-button aria-label="Edit Facility" ng-click="gotoFacility()">
+                            <i class="fa fa-angle-left"></i>
+                            <span>Access Points</span>
+                        </md-button>
+                    </div>
+                    <div>
+                        <md-menu md-position-mode="target-right target">
+                            <md-button class="md-icon-button" aria-label="User Menu" ng-click="$mdOpenMenu($event)">
+                                <span md-menu-origin>
+                                    <md-icon class="fa fa-ellipsis-v"></md-icon>
+                                </span>
+                            </md-button>
+                            <md-menu-content width="2">
+                                <md-menu-item>
+                                    <md-button>
+                                        <span md-menu-align-target>Settings</span>
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button>
+                                        <span md-menu-align-target>Logout</span>
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+                    </div>
+                </md-toolbar-tools>
+            </md-toolbar>
+            <md-toolbar class="md-primary app-primary" layout="column">
+                <md-toolbar-tools flex="100" layout="row" layout-align="center center">
+                    <div flex></div>
+                    <div flex="80">
+                        <p class="md-display-2">{{accessPoint.name}}</p>
+                        <p class="md-subhead">Access Point details</p>
+                        <md-button type="submit" class="md-fab md-raised md-accent app-button" aria-label="Save" ng-disabled="updateAccessPointform.$invalid">
+                            <md-icon class="fa fa-check"></md-icon>
+                        </md-button>
+                    </div>
+                    <div flex></div>
+                </md-toolbar-tools>
+            </md-toolbar>
+            <md-content class="app-secondary">
+                <div class="app-secondary-annotation" layout="row" ng-show="loading" align-children="center">
+                    <md-button aria-label="Loading" flex ng-disabled="true">
+                        <span>Loading</span>
+                        <i class="fa fa-circle-o-notch fa-spin faster"></i>
+                    </md-button>
+                </div>
+                <div class="app-secondary-annotation" ng-if="!loading" layout="row">
+                    <div flex></div>
+                    <div flex="80">
+                        <md-input-container class="md-block">
+                            <label>Name</label>
+                            <input required type="text" name="accessPointName" ng-model="accessPoint.name" minlength="3" maxlength="50" />
+                        </md-input-container>
+                    </div>
+                    <div flex></div>
+                </div>
+            </md-content>
+        </div>
+    </form>
+</script>
