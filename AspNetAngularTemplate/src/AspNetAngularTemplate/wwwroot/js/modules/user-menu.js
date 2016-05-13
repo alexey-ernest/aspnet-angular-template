@@ -21,9 +21,9 @@
             return {
                 restrict: "EA",
                 replace: true,
-                templateUrl: 'user-menu.html',
-                link: function($scope) {
-                }
+                templateUrl: "user-menu.html",
+                link: ["$scope", function($scope) {
+                }]
             };
         }
     ]);

@@ -84,23 +84,23 @@
 
             loadFacilities();
 
-            function dialogController($scope, $mdDialog) {
-                $scope.facility = {};
-
-                $scope.hide = function() {
-                    $mdDialog.hide();
-                };
-                $scope.cancel = function() {
-                    $mdDialog.cancel();
-                };
-                $scope.confirm = function(data) {
-                    $mdDialog.hide(data);
-                };
-            }
-
             $scope.newFacility = function(e) {
                 $mdDialog.show({
-                        controller: dialogController,
+                        controller: [
+                            "$scope", "$mdDialog", function($scope, $mdDialog) {
+                                $scope.facility = {};
+
+                                $scope.hide = function() {
+                                    $mdDialog.hide();
+                                };
+                                $scope.cancel = function() {
+                                    $mdDialog.cancel();
+                                };
+                                $scope.confirm = function(data) {
+                                    $mdDialog.hide(data);
+                                };
+                            }
+                        ],
                         templateUrl: "new-facility-dialog.html",
                         parent: angular.element(document.body),
                         targetEvent: e,
@@ -133,17 +133,17 @@
     module.controller("FacilityCtrl",
     [
         "$scope", "facilityApi", "accessPointApi", "$mdDialog", "$stateParams", "$state",
-        function ($scope, facilityApi, accessPointApi, $mdDialog, $stateParams, $state) {
+        function($scope, facilityApi, accessPointApi, $mdDialog, $stateParams, $state) {
             $scope.accessPoints = [];
             $scope.loading = false;
 
             function loadFacility(id) {
                 $scope.loading = true;
                 facilityApi.get(id)
-                    .then(function (res) {
-                        $scope.facility = res.data;
-                    },
-                        function (res) {
+                    .then(function(res) {
+                            $scope.facility = res.data;
+                        },
+                        function(res) {
                             console.error("Failed to load facility details: " + res.status);
                             $mdDialog.show($mdDialog.alert()
                                 .clickOutsideToClose(true)
@@ -151,7 +151,7 @@
                                 .content("Try again.")
                                 .ok("Ok"));
                         })
-                    .finally(function () {
+                    .finally(function() {
                         $scope.loading = false;
                     });
             }
@@ -159,10 +159,10 @@
             function loadAccessPoints(id) {
                 $scope.loading = true;
                 accessPointApi.getAll(id)
-                    .then(function (res) {
-                        $scope.accessPoints = res.data;
-                    },
-                        function (res) {
+                    .then(function(res) {
+                            $scope.accessPoints = res.data;
+                        },
+                        function(res) {
                             console.error("Failed to load facility access points: " + res.status);
                             $mdDialog.show($mdDialog.alert()
                                 .clickOutsideToClose(true)
@@ -170,7 +170,7 @@
                                 .content("Try again.")
                                 .ok("Ok"));
                         })
-                    .finally(function () {
+                    .finally(function() {
                         $scope.loading = false;
                     });
             }
@@ -178,45 +178,43 @@
             loadFacility($stateParams.id);
             loadAccessPoints($stateParams.id);
 
-            $scope.gotoFacilities = function () {
+            $scope.gotoFacilities = function() {
                 $state.go("facilities");
-            }
-
+            };
             $scope.gotoUpdateFacility = function() {
                 $state.go("facility-update", { id: $stateParams.id });
-            }
-
-            function dialogController($scope, $mdDialog) {
-                $scope.acessPoint = {};
-
-                $scope.hide = function () {
-                    $mdDialog.hide();
-                };
-                $scope.cancel = function () {
-                    $mdDialog.cancel();
-                };
-                $scope.confirm = function (data) {
-                    $mdDialog.hide(data);
-                };
-            }
-
-            $scope.newAccessPoint = function (e) {
+            };
+            $scope.newAccessPoint = function(e) {
                 $mdDialog.show({
-                    controller: dialogController,
-                    templateUrl: "new-accesspoint-dialog.html",
-                    parent: angular.element(document.body),
-                    targetEvent: e,
-                    clickOutsideToClose: true,
-                    fullscreen: false
-                })
-                    .then(function (data) {
+                        controller: [
+                            "$scope", "$mdDialog", function($scope, $mdDialog) {
+                                $scope.acessPoint = {};
+
+                                $scope.hide = function() {
+                                    $mdDialog.hide();
+                                };
+                                $scope.cancel = function() {
+                                    $mdDialog.cancel();
+                                };
+                                $scope.confirm = function(data) {
+                                    $mdDialog.hide(data);
+                                };
+                            }
+                        ],
+                        templateUrl: "new-accesspoint-dialog.html",
+                        parent: angular.element(document.body),
+                        targetEvent: e,
+                        clickOutsideToClose: true,
+                        fullscreen: false
+                    })
+                    .then(function(data) {
                         $scope.loading = true;
                         accessPointApi.add($stateParams.id, data.name)
-                            .then(function () {
-                                // reload list
-                                loadAccessPoints($stateParams.id);
-                            },
-                                function (res) {
+                            .then(function() {
+                                    // reload list
+                                    loadAccessPoints($stateParams.id);
+                                },
+                                function(res) {
                                     console.error("Failed to add new access point: " + res.status);
                                     $mdDialog.show($mdDialog.alert()
                                         .clickOutsideToClose(true)
@@ -224,7 +222,7 @@
                                         .content("Try again.")
                                         .ok("Ok"));
                                 })
-                            .finally(function () {
+                            .finally(function() {
                                 $scope.loading = false;
                             });
                     });
@@ -260,14 +258,13 @@
 
             loadFacility($stateParams.id);
 
-            $scope.gotoFacility = function () {
-                $state.go("facility", {id: $stateParams.id});
-            }
-
+            $scope.gotoFacility = function() {
+                $state.go("facility", { id: $stateParams.id });
+            };
             $scope.update = function(data) {
                 $scope.loading = true;
                 facilityApi.update(data.id, data.name)
-                    .then(function () {
+                    .then(function() {
                             $mdDialog.show($mdDialog.alert()
                                 .clickOutsideToClose(true)
                                 .title("Facility updated")
@@ -293,17 +290,17 @@
     module.controller("AccessPointUpdateCtrl",
     [
         "$scope", "$stateParams", "accessPointApi", "$mdDialog", "$state",
-        function ($scope, $stateParams, accessPointApi, $mdDialog, $state) {
+        function($scope, $stateParams, accessPointApi, $mdDialog, $state) {
             $scope.accessPoint = null;
             $scope.loading = false;
 
             function loadAccessPoint(fid, id) {
                 $scope.loading = true;
                 accessPointApi.get(fid, id)
-                    .then(function (res) {
-                        $scope.accessPoint = res.data;
-                    },
-                        function (res) {
+                    .then(function(res) {
+                            $scope.accessPoint = res.data;
+                        },
+                        function(res) {
                             console.error("Failed to load access point details: " + res.status);
                             $mdDialog.show($mdDialog.alert()
                                 .clickOutsideToClose(true)
@@ -311,7 +308,7 @@
                                 .content("Try again.")
                                 .ok("Ok"));
                         })
-                    .finally(function () {
+                    .finally(function() {
                         $scope.loading = false;
                     });
             }
@@ -320,20 +317,19 @@
 
             $scope.gotoFacility = function() {
                 $state.go("facility", { id: $stateParams.fid });
-            }
-
-            $scope.update = function (data) {
+            };
+            $scope.update = function(data) {
                 $scope.loading = true;
                 accessPointApi.update($stateParams.fid, data.id, data.name)
-                    .then(function () {
-                        $mdDialog.show($mdDialog.alert()
-                            .clickOutsideToClose(true)
-                            .title("Access Point updated")
-                            .content("All changes were saved successfully.")
-                            .ok("Ok"));
-                        $state.go("facility", {id: $stateParams.fid});
-                    },
-                        function (res) {
+                    .then(function() {
+                            $mdDialog.show($mdDialog.alert()
+                                .clickOutsideToClose(true)
+                                .title("Access Point updated")
+                                .content("All changes were saved successfully.")
+                                .ok("Ok"));
+                            $state.go("facility", { id: $stateParams.fid });
+                        },
+                        function(res) {
                             console.error("Failed to update access point: " + res.status);
                             $mdDialog.show($mdDialog.alert()
                                 .clickOutsideToClose(true)
@@ -341,7 +337,7 @@
                                 .content("Try again.")
                                 .ok("Ok"));
                         })
-                    .finally(function () {
+                    .finally(function() {
                         $scope.loading = false;
                     });
             };

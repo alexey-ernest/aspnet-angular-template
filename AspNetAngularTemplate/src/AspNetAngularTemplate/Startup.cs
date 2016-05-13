@@ -1,5 +1,4 @@
 ﻿using AspNetAngularTemplate.Mapping;
-using AspNetAngularTemplate.Middleware;
 using AspNetAngularTemplate.Models;
 using AspNetAngularTemplate.Models.Repositories;
 using AutoMapper;
@@ -115,9 +114,6 @@ namespace AspNetAngularTemplate
             app.UseIdentity();
 
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
-
-            // enable model validation
-            app.UseModelValidation();
 
             app.UseMvc(routes =>
             {

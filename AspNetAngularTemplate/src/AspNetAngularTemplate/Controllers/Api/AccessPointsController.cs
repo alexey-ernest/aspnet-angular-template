@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AspNetAngularTemplate.Filters;
 using AspNetAngularTemplate.Models;
 using AspNetAngularTemplate.Models.Repositories;
 using AspNetAngularTemplate.ViewModels;
@@ -60,13 +61,9 @@ namespace AspNetAngularTemplate.Controllers.Api
 
         // POST api/facilities/{fid}/accesspoints
         [HttpPost]
+        [ValidateModelState]
         public async Task<IActionResult> Post(string fid, [FromBody] AccessPointDto accessPoint)
         {
-            if (!ModelState.IsValid)
-            {
-                return HttpBadRequest(ModelState);
-            }
-
             var facility = await _facilityRepository.FindAsync(fid);
             if (facility == null)
             {
@@ -79,13 +76,9 @@ namespace AspNetAngularTemplate.Controllers.Api
 
         // PUT api/facilities/{fid}/accesspoints/5
         [HttpPut("{id}")]
+        [ValidateModelState]
         public async Task<IActionResult> Put(string fid, string id, [FromBody] AccessPointDto accessPoint)
         {
-            if (!ModelState.IsValid)
-            {
-                return HttpBadRequest(ModelState);
-            }
-
             var facility = await _facilityRepository.FindAsync(fid);
             if (facility == null)
             {

@@ -28,9 +28,8 @@
 
     // Controllers
     module.controller("HomeCtrl", [
-      "$scope", 
-      function ($scope) {
-          $scope.text = "Hello from Angular";
+      "$scope", function ($scope) {
+        
       }
     ]);
 
